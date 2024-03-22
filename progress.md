@@ -1,6 +1,6 @@
-### Progress Reports
+# Progress Reports
 
-# Week of March 18-22
+### Week of March 18-22
 
 This week, we started out by slightly revising our proposal to instead
 be researching different sorting algorithms in order to determine the range of
