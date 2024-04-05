@@ -7,8 +7,7 @@ Description:
 Various sorting algorithm methods to use for project
 """
 
-currentPos1 = -1
-currentPos2 = -1
+
 
 def bubbleSort(arr):
 
@@ -20,8 +19,7 @@ def bubbleSort(arr):
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
                 modifications += 2
-                currentPos1 = j
-                currentPos2 = j + 1
+                
             comparisons += 1
     
     return [comparisons, modifications]

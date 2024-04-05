@@ -1,7 +1,7 @@
 import pygame
 import threading
 from random import randint 
-from sort_visualize import bubbleSort as sort
+import sort_visualize
 import sys
 
 WIDTH = 854
@@ -34,7 +34,7 @@ pygame.display.set_caption(TITLE)
 
 clock = pygame.time.Clock()
 
-t1 = threading.Thread(target=sort, args=[testArray])
+t1 = threading.Thread(target=sort_visualize.bubbleSort, args=[testArray])
 t1.start()
 
 while True:
@@ -54,7 +54,11 @@ while True:
     screen.fill(BLACK)
         
     for i in range(len(testArray)):
-        pygame.draw.rect(screen, GREEN, [ i*barWidth, currentHeight - testArray[i] * 1/heightRatio,
+        if i == sort_visualize.currentPos1 or i == sort_visualize.currentPos2:
+            pygame.draw.rect(screen, RED, [ i*barWidth, currentHeight - testArray[i] * 1/heightRatio,
+                                            barWidth, (testArray[i] * 1/heightRatio)],0)    
+        else:
+            pygame.draw.rect(screen, GREEN, [ i*barWidth, currentHeight - testArray[i] * 1/heightRatio,
                                             barWidth, (testArray[i] * 1/heightRatio)],0)
         
     pygame.display.update()
