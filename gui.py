@@ -2,7 +2,7 @@ import pygame
 import threading
 from random import randint 
 import sort_visualize
-import sys
+import os
 
 WIDTH = 854
 HEIGHT = 480
@@ -43,7 +43,7 @@ while True:
         # FIX SORTING THREAD NOT BEING ENDED BY THIS:
         if event.type == pygame.QUIT:
             pygame.quit()
-            sys.exit()
+            os._exit(0)
             
     currentHeight = screen.get_height()
     currentWidth = screen.get_width()
