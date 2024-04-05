@@ -20,3 +20,10 @@ Decide what GUI library/package to use, and perform some tech tests with it.
 * Week of 4/15-4/19 - Begin work on graphical representation of algorithms, GUI's 
 * Week of 4/22-4/25 - Finish/bugtest Graphical representations, possibly complete a presentation to display alongside running program.
 
+### Week of April 2-5
+
+This week, we worked on writing the implementations of the sorting algorithms, and got the GUI working as intended.
+
+* Week of 4/8-4/12 - Complete tests, collect data, bug testing of algorithm implementation.
+* Week of 4/15-4/19 - Begin work on graphical representation of algorithms, GUI's 
+* Week of 4/22-4/25 - Finish/bugtest Graphical representations, possibly complete a presentation to display alongside running program.
