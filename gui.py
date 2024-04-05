@@ -1,5 +1,8 @@
 import pygame
-import sort
+import threading
+from random import randint 
+from sort_visualize import bubbleSort as sort
+import sys
 
 WIDTH = 854
 HEIGHT = 480
@@ -11,7 +14,7 @@ GREEN = ( 0, 255, 0)
 RED = ( 255, 0, 0)
 
 
-testArray = [ i for i in range(1000) ]
+testArray = [ randint(0, HEIGHT) for i in range(600) ]
 
 
 max = testArray[0]
@@ -29,32 +32,32 @@ pygame.init()
 screen = pygame.display.set_mode( (WIDTH, HEIGHT), pygame.RESIZABLE )
 pygame.display.set_caption(TITLE)
 
-running = True
-
 clock = pygame.time.Clock()
 
-while running:
+t1 = threading.Thread(target=sort, args=[testArray])
+t1.start()
+
+while True:
     
     for event in pygame.event.get(): 
+        # FIX SORTING THREAD NOT BEING ENDED BY THIS:
         if event.type == pygame.QUIT:
-              running = False 
-              continue
+            pygame.quit()
+            sys.exit()
             
-        currentHeight = screen.get_height()
-        currentWidth = screen.get_width()
+    currentHeight = screen.get_height()
+    currentWidth = screen.get_width()
 
-        heightRatio = max / currentHeight
-        barWidth = currentWidth / len(testArray)
+    heightRatio = max / currentHeight
+    barWidth = currentWidth / len(testArray)
 
-        screen.fill(BLACK)
+    screen.fill(BLACK)
         
-        for i in range(len(testArray)):
-            pygame.draw.rect(screen, GREEN, [ i*barWidth, currentHeight - testArray[i] * 1/heightRatio,
-                                              barWidth, (testArray[i] * 1/heightRatio)],0)
+    for i in range(len(testArray)):
+        pygame.draw.rect(screen, GREEN, [ i*barWidth, currentHeight - testArray[i] * 1/heightRatio,
+                                            barWidth, (testArray[i] * 1/heightRatio)],0)
         
-        pygame.display.flip()
+    pygame.display.update()
         
         
-        clock.tick(60)
-
-pygame.quit()
+    clock.tick(60)

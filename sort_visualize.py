@@ -2,9 +2,14 @@ import time
 from random import randint
 """
 Author: Sean O'Malley
+Edited by: Brenden Talasco
 
 Description:
 Various sorting algorithm methods to use for project
+
+Same as sort_tests.py, but edited to add code necessary 
+for algorithm visualization
+
 """
 
 
@@ -19,6 +24,7 @@ def bubbleSort(arr):
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
                 modifications += 2
+                time.sleep(0.05)
             comparisons += 1
     
     return [comparisons, modifications]
@@ -105,9 +111,11 @@ def partition(arr, l, r):
             (arr[i], arr[j]) = (arr[j], arr[i])
 
             mods += 2
+            time.sleep(0.05)
  
     (arr[i + 1], arr[r]) = (arr[r], arr[i + 1])
     mods += 1
+    time.sleep(0.05)
  
 
     return [i + 1, comps, mods]
@@ -124,33 +132,3 @@ def quickSort(arr, l, r):
         return [things[1] + things2[0] + things3[0], things[2] + things2[1] + things3[1]]
     return [0, 0]
 
-
-arr = []
-
-for i in range(0, 20):
-    arr.append(randint(0, 1000))
-
-arr2 = []
-arr3 = []
-
-for i in range(0, 20):
-    arr2.append(arr[i])
-    arr3.append(arr[i])
-
-startTime = time.time_ns()
-test1 = bubbleSort(arr)
-endTime = time.time_ns()
-duration = endTime - startTime
-print('time: {:f} comparisons: {:d} modifications: {:d}'.format(duration, test1[0], test1[1]))
-
-startTime = time.time_ns()
-test2 = mergeSort(arr2, 0, len(arr2) - 1)
-endTime = time.time_ns()
-duration = endTime - startTime
-print('time: {:f} comparisons: {:d} modifications: {:d}'.format(duration, test2[0], test2[1]))
-
-startTime = time.time_ns()
-test3 = quickSort(arr3, 0, len(arr3) - 1)
-endTime = time.time_ns()
-duration = endTime - startTime
-print('time: {:f} comparisons: {:d} modifications: {:d}'.format(duration, test3[0], test3[1]))
