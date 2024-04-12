@@ -35,3 +35,16 @@ changing time of thread sleeps, etc.
 * Week of 4/8-4/12 - Complete tests of sorting algorithms, collect data, bug testing of algorithm implementation.
 * Week of 4/15-4/19 - Complete bug testing of GUI implementation, and add more capability to the GUI in general as described above 
 * Week of 4/22-4/25 - Finish/bugtest Graphical representations, possibly complete a presentation to display alongside running program.
+
+### Week of April 8-12
+
+This week, we worked on refining the GUI which will present vertices being sorted in real-time.
+
+The GUI has been tested and improved to work better with the graph data we will be using. Sound has also been added to
+the visualization, though improvements may need to be made.
+
+We have failed to collect data from the sorting algorithms, so that will need to be moved to next week. Otherwise, we
+are on pace.
+
+* Week of 4/15-4/19 - Collect data, complete bug testing of GUI implementation.
+* Week of 4/22-4/25 - Finish/bugtest graphical representations, complete analysis of data, possibly complete a presentations to display alongside running program.
