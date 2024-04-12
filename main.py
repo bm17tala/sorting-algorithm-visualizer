@@ -1,4 +1,5 @@
 import sys
+from gui import runGUI
 
 
 """
@@ -54,8 +55,8 @@ try:
         # lists
         for _ in range(numVertices):
             vertex, lat, long = graph.readline().split()
-            latitude.append(VertexNode(vertex, lat))
-            longitude.append(VertexNode(vertex, long))
+            latitude.append(VertexNode(vertex, float(lat)))
+            longitude.append(VertexNode(vertex, float(long)))
 
 except FileNotFoundError:
     print(f"File not found: {argument}")
@@ -68,3 +69,5 @@ for lat in latitude:
 print("\n---longitudes---")
 for long in longitude:
     print(f"{long.name}: {long.data}")
+
+runGUI(latitude)

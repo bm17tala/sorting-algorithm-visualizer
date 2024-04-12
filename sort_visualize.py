@@ -15,9 +15,12 @@ for algorithm visualization
 currentPos1 = -1
 currentPos2 = -1
 
+sorting = False
 
+def bubbleSort(arr, lock):
+    global currentPos1
+    global currentPos2
 
-def bubbleSort(arr):
 
     comparisons = 0
     modifications = 0
@@ -27,9 +30,10 @@ def bubbleSort(arr):
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
                 modifications += 2
-                currentPos1 = j
-                currentPos2 = j + 1
-                time.sleep(0.05)
+                with lock:
+                    currentPos1 = j
+                    currentPos2 = j + 1
+                time.sleep(0.0001)
             comparisons += 1
     
     return [comparisons, modifications]
@@ -97,7 +101,10 @@ def mergeSort(arr, l, r):
 
 
 
-def partition(arr, l, r):
+def partition(arr, l, r, lock):
+
+    global currentPos1
+    global currentPos2
 
     comps = 0
     mods = 0
@@ -114,26 +121,36 @@ def partition(arr, l, r):
  
 
             (arr[i], arr[j]) = (arr[j], arr[i])
+            with lock:
+                currentPos1 = j
+                currentPos2 = j + 1
 
             mods += 2
-            time.sleep(0.05)
+            time.sleep(0.001)
  
     (arr[i + 1], arr[r]) = (arr[r], arr[i + 1])
+    with lock:
+        currentPos1 = j
+        currentPos2 = j + 1
     mods += 1
-    time.sleep(0.05)
+    time.sleep(0.001)
  
 
     return [i + 1, comps, mods]
  
  
-def quickSort(arr, l, r):
+def quickSort(arr, l, r, lock):
+    global sorting
+    sorting = True
     if l < r:
-        things = partition(arr, l, r)
+        things = partition(arr, l, r, lock)
  
-        things2 = quickSort(arr, l, things[0] - 1)
+        things2 = quickSort(arr, l, things[0] - 1, lock)
  
-        things3 = quickSort(arr, things[0] + 1, r)
+        things3 = quickSort(arr, things[0] + 1, r, lock)
 
+        sorting = False
         return [things[1] + things2[0] + things3[0], things[2] + things2[1] + things3[1]]
+    sorting = False
     return [0, 0]
 

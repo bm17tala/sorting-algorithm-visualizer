@@ -1,4 +1,5 @@
 import pygame
+import pysine
 import threading
 from random import randint 
 import sort_visualize
@@ -13,55 +14,102 @@ WHITE = ( 255, 255, 255)
 GREEN = ( 0, 255, 0)
 RED = ( 255, 0, 0)
 
-
-testArray = [ randint(0, HEIGHT) for i in range(600) ]
-
-
-max = testArray[0]
-for i in range(1, len(testArray)):
-    if testArray[i] > max:
-        max = testArray[i]
-
-heightRatio = max / HEIGHT 
+frequency = 0
 
 
-barWidth = WIDTH / len(testArray)
+#testArray = [ randint(0, HEIGHT) for i in range(600) ]
 
-pygame.init()
+def runGUI(testArray):
+    global frequency
 
-screen = pygame.display.set_mode( (WIDTH, HEIGHT), pygame.RESIZABLE )
-pygame.display.set_caption(TITLE)
+    onScreenArr = []
 
-clock = pygame.time.Clock()
+    for i in testArray:
+        onScreenArr.append(int(i.data*100000))
 
-t1 = threading.Thread(target=sort_visualize.bubbleSort, args=[testArray])
-t1.start()
+    for i in onScreenArr:
+        print(i)
 
-while True:
+
+    max = onScreenArr[0]
+    for i in range(1, len(onScreenArr)):
+        if onScreenArr[i] > max:
+            max = onScreenArr[i]
+
+    min = onScreenArr[0]
+    for i in range(1, len(onScreenArr)):
+        if onScreenArr[i] < min:
+            min = onScreenArr[i]
+
+    heightRatio = (max - min) / HEIGHT 
+
+    barWidth = WIDTH / len(onScreenArr)
+
+    pygame.init()
+
+    screen = pygame.display.set_mode( (WIDTH, HEIGHT), pygame.RESIZABLE )
     
-    for event in pygame.event.get(): 
-        # FIX SORTING THREAD NOT BEING ENDED BY THIS:
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            os._exit(0)
+
+    
+
+    pygame.display.set_caption(TITLE)
+
+    clock = pygame.time.Clock()
+
+    posLock = threading.Lock()
+    t1 = threading.Thread(target=sort_visualize.quickSort, args=[onScreenArr, 0, len(onScreenArr) - 1, posLock])
+    t1.start()
+
+
+    soundLock = threading.Lock()
+    soundThread = threading.Thread(target=playSound, args=[])
+    soundThread.start()
+
+
+    while True:
+        
+        for event in pygame.event.get(): 
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                os._exit(0)
+
+        
+                
+        currentHeight = screen.get_height()
+        currentWidth = screen.get_width()
+
+        heightRatio = (max - min) / currentHeight
+        barWidth = currentWidth / len(onScreenArr)
+
+        screen.fill(BLACK)
+
+        
+        # print(currentHeight - onScreenArr[i] * 1/heightRatio)
+        for i in range(len(onScreenArr)):
+            with posLock:
+                if i == sort_visualize.currentPos1 or i == sort_visualize.currentPos2:
+                    pygame.draw.rect(screen, RED, [ i*barWidth, currentHeight - (onScreenArr[i]-min) * 1/heightRatio,
+                                                    barWidth, ( (onScreenArr[i]-min) * 1/heightRatio)],0)
+                    
+                    with soundLock:
+                        frequency = ((onScreenArr[i]-min) * 1/heightRatio) + 500
+                    
+                    
+                    
+                else:
+                    pygame.draw.rect(screen, GREEN, [ i*barWidth, currentHeight - (onScreenArr[i]-min) * 1/heightRatio,
+                                                    barWidth, ( (onScreenArr[i]-min) * 1/heightRatio)],0)
+                    
+                
+        pygame.display.update()
+
+        
             
-    currentHeight = screen.get_height()
-    currentWidth = screen.get_width()
+            
+        clock.tick(60)
 
-    heightRatio = max / currentHeight
-    barWidth = currentWidth / len(testArray)
+def playSound():
+    global frequency
 
-    screen.fill(BLACK)
-        
-    for i in range(len(testArray)):
-        if i == sort_visualize.currentPos1 or i == sort_visualize.currentPos2:
-            pygame.draw.rect(screen, RED, [ i*barWidth, currentHeight - testArray[i] * 1/heightRatio,
-                                            barWidth, (testArray[i] * 1/heightRatio)],0)    
-        else:
-            pygame.draw.rect(screen, GREEN, [ i*barWidth, currentHeight - testArray[i] * 1/heightRatio,
-                                            barWidth, (testArray[i] * 1/heightRatio)],0)
-        
-    pygame.display.update()
-        
-        
-    clock.tick(60)
+    while sort_visualize.sorting:
+        pysine.sine(frequency=frequency, duration=0.05) 
