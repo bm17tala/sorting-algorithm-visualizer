@@ -41,7 +41,7 @@ changing time of thread sleeps, etc.
 This week, we worked on refining the GUI which will present vertices being sorted in real-time. We added sounds
 that the GUI produces as it sorts vertices, and a red line that appears over the vertices currently being modified.
 
-Still some bugs regarding the GUI need to be fixed, but all of its basic functionality for the GUI is in place at this point.
+Still some bugs regarding the GUI need to be fixed, but all of the basic functionality for the GUI is in place at this point.
 We collected some early test data on the sorting algorithms with a few different tmg files. We noticed that larger sized tmg files
 with high amounts of vertices seem to break our quicksort algorithm and cause stack overflow exceptions, so our quicksort algorithm
 will need to be revised next week.
