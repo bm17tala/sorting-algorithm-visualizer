@@ -1,5 +1,7 @@
 import sys
 from gui import runGUI
+from sort_tests import runTests
+from copy import deepcopy
 
 
 """
@@ -62,12 +64,31 @@ except FileNotFoundError:
     print(f"File not found: {argument}")
     sys.exit(1)
 
-print("---latitudes---")
-for lat in latitude:
-    print(f"{lat.name}: {lat.data}")
+# print("---latitudes---")
+# for lat in latitude:
+#     print(f"{lat.name}: {lat.data}")
 
-print("\n---longitudes---")
-for long in longitude:
-    print(f"{long.name}: {long.data}")
+# print("\n---longitudes---")
+# for long in longitude:
+#     print(f"{long.name}: {long.data}")
 
-runGUI(latitude)
+
+while True:
+    print()
+    print("Enter one of the following:")
+    print("(1) Visualize")
+    print("(2) Run a test")
+    input = input()
+    if input == '1':
+        runGUI(longitude)
+        break
+    elif input == '2':
+        print("---latitudes---")
+        runTests(deepcopy(latitude), True)
+        print("---longitudes---")
+        runTests(deepcopy(longitude), False)
+        break
+    else:
+        print("Try again...")
+
+
