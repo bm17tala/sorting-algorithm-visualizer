@@ -80,7 +80,7 @@ while True:
     print("(2) Run a test")
     input = input()
     if input == '1':
-        runGUI(longitude)
+        runGUI(latitude)
         break
     elif input == '2':
         print("---latitudes---")

@@ -75,37 +75,42 @@ def runGUI(testArray):
         currentHeight = screen.get_height()
         currentWidth = screen.get_width()
 
-        heightRatio = (max - min) / currentHeight
-        barWidth = currentWidth / len(onScreenArr)
-
         if len(onScreenArr) > currentWidth:
-            valsPerBar = len(onScreenArr) / currentWidth
+            newOnScreenArr = average_of_chunks(onScreenArr, int(len(onScreenArr) / currentWidth))
         else:
-            valsPerBar = 1
+            newOnScreenArr = onScreenArr
+
+        heightRatio = (max - min) / currentHeight
+        if len(onScreenArr) > currentWidth:
+            barWidth = 1
+        else:
+            barWidth = currentWidth / len(newOnScreenArr)
+        
+
 
         screen.fill(BLACK)
 
-        if valsPerBar != 1:
-            newOnScreenArr = average_of_chunks(onScreenArr, valsPerBar)
+        
 
 
         # print(currentHeight - onScreenArr[i] * 1/heightRatio)
-            for i in range(len(onScreenArr)):
-                with posLock:
-                    if i == sort_visualize.currentPos1 or i == sort_visualize.currentPos2:
+        print(len(newOnScreenArr))
+        for i in range(len(newOnScreenArr)):
+            with posLock:
+                if i == int(sort_visualize.currentPos1  / int(len(onScreenArr) / currentWidth)) or i == int(sort_visualize.currentPos2  / int(len(onScreenArr) / currentWidth)):
 
                         
-                        pygame.draw.rect(screen, RED, [ i*barWidth, currentHeight - (onScreenArr[i]-min) * 1/heightRatio,
-                                                        barWidth, ( (onScreenArr[i]-min) * 1/heightRatio)],0)
+                    pygame.draw.rect(screen, RED, [ i*barWidth, currentHeight - (newOnScreenArr[i]-min) * 1/heightRatio,
+                                                        barWidth, ( (newOnScreenArr[i]-min) * 1/heightRatio)],0)
                         
-                        with soundLock:
-                            frequency = ((onScreenArr[i]-min) * 1/heightRatio) + 500
+                    with soundLock:
+                        frequency = ((newOnScreenArr[i]-min) * 1/heightRatio) + 500
                         
                         
                         
-                    else:
-                        pygame.draw.rect(screen, GREEN, [ i*barWidth, currentHeight - (onScreenArr[i]-min) * 1/heightRatio,
-                                                        barWidth, ( (onScreenArr[i]-min) * 1/heightRatio)],0)
+                else:
+                    pygame.draw.rect(screen, GREEN, [ i*barWidth, currentHeight - (newOnScreenArr[i]-min) * 1/heightRatio,
+                                                        barWidth, ( (newOnScreenArr[i]-min) * 1/heightRatio)],0)
                     
                 
         pygame.display.update()
