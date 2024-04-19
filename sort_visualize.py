@@ -126,22 +126,20 @@ def partition(arr, l, r, lock):
                 currentPos2 = j + 1
 
             mods += 2
-            # time.sleep(0.001)
+            time.sleep(0.001)
  
     (arr[i + 1], arr[r]) = (arr[r], arr[i + 1])
     with lock:
         currentPos1 = j
         currentPos2 = j + 1
     mods += 1
-    # time.sleep(0.001)
+    time.sleep(0.001)
  
 
     return [i + 1, comps, mods]
  
  
 def quickSort(arr, l, r, lock):
-    global sorting
-    sorting = True
     if l < r:
         things = partition(arr, l, r, lock)
  
@@ -149,8 +147,7 @@ def quickSort(arr, l, r, lock):
  
         things3 = quickSort(arr, things[0] + 1, r, lock)
 
-        sorting = False
+        
         return [things[1] + things2[0] + things3[0], things[2] + things2[1] + things3[1]]
-    sorting = False
     return [0, 0]
 

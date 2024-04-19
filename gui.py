@@ -67,6 +67,13 @@ def runGUI(testArray):
     soundThread = threading.Thread(target=playSound, args=[])
     soundThread.start()
 
+    # has the 'sorting complete' message printed yet?
+    msgSortingComplete = False
+
+    # newOnScreenArr is what will actually get used to display vertices - we differentiate this from onScreenArr
+    # in the case that there are more bars to display than pixels on screen to fit them (so we have to get average
+    # values of a few vertices and just display them in one bar)
+    newOnScreenArr = onScreenArr
     # window loop:
     while True:
         for event in pygame.event.get(): 
@@ -79,21 +86,41 @@ def runGUI(testArray):
         currentHeight = screen.get_height()
         currentWidth = screen.get_width()
 
-        # If there are more vertices than 
+        # If there are more vertices than pixels on the screen to render them, we have to take the average
+        # of some calculated few of them and show that average in each bar instead - be sure to calculate
+        # new min/max values since averages could change as the array is being sorted!
         if len(onScreenArr) > currentWidth:
             newOnScreenArr = average_of_chunks(onScreenArr, int(len(onScreenArr) / currentWidth))
-        else:
-            newOnScreenArr = onScreenArr
+
+            max = newOnScreenArr[0]
+            for i in range(1, len(newOnScreenArr)):
+                if newOnScreenArr[i] > max:
+                    max = newOnScreenArr[i]
+
+            min = newOnScreenArr[0]
+            for i in range(1, len(newOnScreenArr)):
+                if newOnScreenArr[i] < min:
+                    min = newOnScreenArr[i]
 
         heightRatio = (max - min) / currentHeight
+
+        # if there were originally more vertices than there are current pixels available, each bar is 1px wide
         if len(onScreenArr) > currentWidth:
             barWidth = 1
+        # otherwise, we get the length of each bar based on how many chunks of 'averages' we have
         else:
             barWidth = currentWidth / len(newOnScreenArr)
 
         screen.fill(BLACK)
 
         for i in range(len(newOnScreenArr)):
+            # The sorting algorithm has a thread lock in order to prevent race conditions
+            # on currentPos1/2
+
+            if (not msgSortingComplete) and (not t1.is_alive()):
+                print("Sorting complete!")
+                msgSortingComplete = True
+
             with posLock:
                 try:
                     if i == int(sort_visualize.currentPos1  / int(len(onScreenArr) / currentWidth)) or i == int(sort_visualize.currentPos2  / int(len(onScreenArr) / currentWidth)):
