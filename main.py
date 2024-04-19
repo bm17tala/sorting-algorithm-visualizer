@@ -2,6 +2,8 @@ import sys
 from gui import runGUI
 from sort_tests import runTests
 from copy import deepcopy
+from sort_tests import LATITUDE
+from sort_tests import LONGITUDE
 
 
 """
@@ -14,6 +16,7 @@ file from the user and interpret it.
 
 # const for file type
 FILE_TYPE = ".tmg"
+
 
 # class for holding either latitude or longitude data for a point
 # they must hold EITHER latitude or longitude, so they can be sorted by either
@@ -86,10 +89,11 @@ while True:
         runGUI(latitude)
         break
     elif input == '2':
-        print("---latitudes---")
-        runTests(deepcopy(latitude), True)
-        print("---longitudes---")
-        runTests(deepcopy(longitude), False)
+        print(f"\nSorting {numVertices} vertices...\n")
+        print("---latitudes---\n")
+        runTests(deepcopy(latitude), LATITUDE)
+        print("---longitudes---\n")
+        runTests(deepcopy(longitude), LONGITUDE)
         break
     else:
         print("Try again...")

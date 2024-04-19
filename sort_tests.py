@@ -7,6 +7,9 @@ Description:
 Various sorting algorithm methods to use for project
 """
 
+# consts for whether we're sorting latitude or longitude
+LATITUDE = 0
+LONGITUDE = 1
 
 
 def bubbleSort(arr):
@@ -57,14 +60,12 @@ def merge(arr, l, m, r):
         k += 1
 
     while i < len(tempL):
-        comps += 1
         mods += 1
         arr[k].data = tempL[i]
         i += 1
         k += 1
     
     while j < len(tempR):
-        comps += 1
         mods += 1
         arr[k].data = tempR[j]
         j += 1
@@ -138,35 +139,40 @@ def quickSort(arr, l, r):
 #     arr2.append(arr[i])
 #     arr3.append(arr[i])
 
-def testBubbleSort(arr, latitude):
+def testBubbleSort(arr, latOrLong):
     startTime = time.time_ns()
     test1 = bubbleSort(arr)
     endTime = time.time_ns()
     duration = (endTime - startTime) / 1000000000
-    print('Bubble Sort - time: {:f} seconds, comparisons: {:d}, modifications: {:d}'.format(duration, test1[0], test1[1]))
+    print('Bubble Sort - time: {:f} seconds, comparisons: {:d}, modifications: {:d}\n'.format(duration, test1[0], test1[1]))
+    printResults(arr, latOrLong)
 
-def testMergeSort(arr, latitude):
+def testMergeSort(arr, latOrLong):
     startTime = time.time_ns()
     test2 = mergeSort(arr, 0, len(arr) - 1)
     endTime = time.time_ns()
     duration = (endTime - startTime) / 1000000000
-    print('Merge Sort - time: {:f} comparisons: {:d} modifications: {:d}'.format(duration, test2[0], test2[1]))
+    print('Merge Sort - time: {:f} seconds, comparisons: {:d} modifications: {:d}\n'.format(duration, test2[0], test2[1]))
+    printResults(arr, latOrLong)
 
-def testQuickSort(arr, latitude):
+def testQuickSort(arr, latOrLong):
     startTime = time.time_ns()
     test3 = quickSort(arr, 0, len(arr) - 1)
     endTime = time.time_ns()
     duration = (endTime - startTime) / 1000000000
-    print('Quick Sort - time: {:f} comparisons: {:d} modifications: {:d}'.format(duration, test3[0], test3[1]))
-    if latitude:
-        print(f'Northmost vertex: {arr[-1].name} : {arr[-1].data}' )
-        print(f'Southmost vertex: {arr[0].name} : {arr[0].data}' )
+    print('Quick Sort - time: {:f} seconds, comparisons: {:d} modifications: {:d}\n'.format(duration, test3[0], test3[1]))
+    printResults(arr, latOrLong)
+
+def printResults(arr, latOrLong):
+    if latOrLong == LATITUDE:
+        print(f'\tNorthmost vertex: {arr[-1].name} : {arr[-1].data}' )
+        print(f'\tSouthmost vertex: {arr[0].name} : {arr[0].data}\n' )
     else:
-        print(f'Eastmost vertex: {arr[-1].name} : {arr[-1].data}' )
-        print(f'Westmost vertex: {arr[0].name} : {arr[0].data}' )
+        print(f'\tEastmost vertex: {arr[-1].name} : {arr[-1].data}' )
+        print(f'\tWestmost vertex: {arr[0].name} : {arr[0].data}\n' )
     
 
-def runTests(arr, latitude):
-    testBubbleSort(arr, latitude)
-    testMergeSort(arr, latitude)
-    testQuickSort(arr, latitude)
+def runTests(arr, latOrLong):
+    #testBubbleSort(arr, latOrLong)
+    testMergeSort(arr, latOrLong)
+    #testQuickSort(arr, latOrLong)
