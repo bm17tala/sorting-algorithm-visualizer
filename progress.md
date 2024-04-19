@@ -48,3 +48,15 @@ will need to be revised next week.
 
 * Week of 4/15-4/19 - Fix Quicksort algorithm, collect data from tests of sorting algorithms, complete debugging of GUI implementation.
 * Week of 4/22-4/25 - Finish/bugtest graphical representations, complete analysis of data, possibly complete a presentations to display alongside running program.
+
+### Week of April 15-19
+
+This week, we continued working on the GUI which will present vertices being sorted in real-time. We sorted out some bugs
+relating to the GUI not displaying averaged vertices properly, and began testing showing a text label on screen to show
+the current number of comparisons and modifications that have occurred while sorting so far. The CMDline also now asks
+whether you want to see a visualization of latitude or longitude sorting.
+
+We also fixed the bug relating to Quicksort failing on bigger data sets, the call stack size in python simply needed to
+be enlarged with one function call. We still need to carry out tests, so this will have to be completed next week.
+
+* Week of 4/22-4/25 - Finish/bugtest graphical representations, complete tests on the sorting algorithms with different data sets and an analysis of those tests.
