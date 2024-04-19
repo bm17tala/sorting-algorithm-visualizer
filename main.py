@@ -23,6 +23,9 @@ class VertexNode:
         self.name = name
         self.data = data
 
+# 0. We need a bigger call stack size in order to support recursive sorting algorithms
+sys.setrecursionlimit(0x7fffffff)
+
 
 # 1. Check the file name entered of the user's file
 

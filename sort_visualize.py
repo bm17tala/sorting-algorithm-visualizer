@@ -126,14 +126,14 @@ def partition(arr, l, r, lock):
                 currentPos2 = j + 1
 
             mods += 2
-            time.sleep(0.001)
+            # time.sleep(0.001)
  
     (arr[i + 1], arr[r]) = (arr[r], arr[i + 1])
     with lock:
         currentPos1 = j
         currentPos2 = j + 1
     mods += 1
-    time.sleep(0.001)
+    # time.sleep(0.001)
  
 
     return [i + 1, comps, mods]
