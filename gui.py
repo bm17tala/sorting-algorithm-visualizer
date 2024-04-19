@@ -56,10 +56,16 @@ def runGUI(testArray):
     screen = pygame.display.set_mode( (WIDTH, HEIGHT), pygame.RESIZABLE )
     pygame.display.set_caption(TITLE)
     clock = pygame.time.Clock()
+    
+    
+    
 
-    # start the thread that actually sorts the array
+    # start the thread that actually sorts the array - begin with bubble sort, then we go to merge sort and quicksort later
+    # posLock - locks on integer positions of values being modified
+    # statLock - locks on integer values of number of comparisons and modifications
     posLock = threading.Lock()
-    t1 = threading.Thread(target=sort_visualize.quickSort, args=[onScreenArr, 0, len(onScreenArr) - 1, posLock])
+    statLock = threading.Lock()
+    t1 = threading.Thread(target=sort_visualize.bubbleSort, args=[onScreenArr, posLock, statLock])
     t1.start()
 
     # start the thread that will make the sorting noises
@@ -145,7 +151,9 @@ def runGUI(testArray):
                     else:
                         pygame.draw.rect(screen, GREEN, [ i*barWidth, currentHeight - (newOnScreenArr[i]-min) * 1/heightRatio,
                                                             barWidth, ( (newOnScreenArr[i]-min) * 1/heightRatio)],0)
-                    
+
+        with statLock:
+            drawText(f"Comparisons: {sort_visualize.comparisons} | Modifications: {sort_visualize.modifications}", 10, 10, screen)
         pygame.display.update()
         clock.tick(60)
 
@@ -162,3 +170,10 @@ def average_of_chunks(arr, chunk_size):
         average = sum(chunk) / len(chunk)
         averages.append(average)
     return averages
+
+def drawText(string, x, y, screen):
+    font = pygame.font.SysFont('Comic Sans MS', 30)
+    text_surface = font.render(string, True, (0xff,0xff,0xff))
+    screen.blit(text_surface, (x,y))
+
+

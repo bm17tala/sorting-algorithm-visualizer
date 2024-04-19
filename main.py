@@ -80,15 +80,26 @@ except FileNotFoundError:
 
 
 while True:
-    print()
-    print("Enter one of the following:")
+    print("\nEnter one of the following:")
     print("(1) Visualize")
     print("(2) Run a test")
-    input = input()
-    if input == '1':
-        runGUI(latitude)
+    userIn = input()
+    if userIn == '1':
+        while True:
+            print("\nEnter one of the following:")
+            print("(1) Sort by latitude")
+            print("(2) Sort by longitude")
+            userIn = input()
+            if(userIn == '1'):
+                runGUI(latitude)
+                break
+            if(userIn == '2'):
+                runGUI(longitude)
+                break
+            else:
+                print("Try again...")
         break
-    elif input == '2':
+    elif userIn == '2':
         print(f"\nSorting {numVertices} vertices...\n")
         print("---latitudes---\n")
         runTests(deepcopy(latitude), LATITUDE)

@@ -127,18 +127,6 @@ def quickSort(arr, l, r):
     return [0, 0]
 
 
-# arr = []
-
-# for i in range(0, 20):
-#     arr.append(randint(0, 1000))
-
-# arr2 = []
-# arr3 = []
-
-# for i in range(0, 20):
-#     arr2.append(arr[i])
-#     arr3.append(arr[i])
-
 def testBubbleSort(arr, latOrLong):
     startTime = time.time_ns()
     test1 = bubbleSort(arr)
