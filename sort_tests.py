@@ -1,4 +1,5 @@
 import time
+from copy import deepcopy
 from random import randint
 """
 Author: Sean O'Malley
@@ -38,10 +39,10 @@ def merge(arr, l, m, r):
     tempR = [0] * (r - m)
 
     for i in range(0, len(tempL)):
-        tempL[i] = arr[l + i].data
+        tempL[i] = arr[l + i]
 
     for i in range(0, len(tempR)):
-        tempR[i] = arr[m + 1 + i].data
+        tempR[i] = arr[m + 1 + i]
 
     i = 0
     j = 0
@@ -49,25 +50,25 @@ def merge(arr, l, m, r):
     
     while i < len(tempL) and j < len(tempR):
         comps += 1
-        if tempL[i] <= tempR[j]:
-            arr[k].data = tempL[i]
+        if tempL[i].data <= tempR[j].data:
+            arr[k] = tempL[i]
             i += 1
             mods += 1
         else:
-            arr[k].data = tempR[j]
+            arr[k] = tempR[j]
             j += 1
             mods += 1
         k += 1
 
     while i < len(tempL):
         mods += 1
-        arr[k].data = tempL[i]
+        arr[k] = tempL[i]
         i += 1
         k += 1
     
     while j < len(tempR):
         mods += 1
-        arr[k].data = tempR[j]
+        arr[k] = tempR[j]
         j += 1
         k += 1
     
@@ -161,6 +162,7 @@ def printResults(arr, latOrLong):
     
 
 def runTests(arr, latOrLong):
-    #testBubbleSort(arr, latOrLong)
-    testMergeSort(arr, latOrLong)
-    #testQuickSort(arr, latOrLong)
+    
+    testBubbleSort(deepcopy(arr), latOrLong)
+    testMergeSort(deepcopy(arr), latOrLong)
+    testQuickSort(deepcopy(arr), latOrLong)

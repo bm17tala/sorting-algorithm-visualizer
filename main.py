@@ -1,7 +1,6 @@
 import sys
 from gui import runGUI
 from sort_tests import runTests
-from copy import deepcopy
 from sort_tests import LATITUDE
 from sort_tests import LONGITUDE
 
@@ -70,14 +69,6 @@ except FileNotFoundError:
     print(f"File not found: {argument}")
     sys.exit(1)
 
-# print("---latitudes---")
-# for lat in latitude:
-#     print(f"{lat.name}: {lat.data}")
-
-# print("\n---longitudes---")
-# for long in longitude:
-#     print(f"{long.name}: {long.data}")
-
 
 while True:
     print("\nEnter one of the following:")
@@ -102,9 +93,9 @@ while True:
     elif userIn == '2':
         print(f"\nSorting {numVertices} vertices...\n")
         print("---latitudes---\n")
-        runTests(deepcopy(latitude), LATITUDE)
+        runTests(latitude, LATITUDE)
         print("---longitudes---\n")
-        runTests(deepcopy(longitude), LONGITUDE)
+        runTests(longitude, LONGITUDE)
         break
     else:
         print("Try again...")

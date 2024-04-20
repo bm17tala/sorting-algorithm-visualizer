@@ -65,7 +65,7 @@ def runGUI(testArray):
     # statLock - locks on integer values of number of comparisons and modifications
     posLock = threading.Lock()
     statLock = threading.Lock()
-    t1 = threading.Thread(target=sort_visualize.bubbleSort, args=[onScreenArr, posLock, statLock])
+    t1 = threading.Thread(target=sort_visualize.quickSort, args=[onScreenArr, 0, len(onScreenArr)-1, posLock, statLock])
     t1.start()
 
     # start the thread that will make the sorting noises
