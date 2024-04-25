@@ -68,21 +68,25 @@ def merge(arr, l, m, r):
             arr[k] = tempL[i]
             i += 1
             modifications += 1
+            time.sleep(0.001)
         else:
             arr[k] = tempR[j]
             j += 1
             modifications += 1
+            time.sleep(0.001)
         k += 1
 
     while i < len(tempL):
         modifications += 1
         arr[k] = tempL[i]
+        time.sleep(0.001)
         i += 1
         k += 1
     
     while j < len(tempR):
         modifications += 1
         arr[k] = tempR[j]
+        time.sleep(0.001)
         j += 1
         k += 1
     
