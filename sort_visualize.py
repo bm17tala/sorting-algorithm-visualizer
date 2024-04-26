@@ -14,13 +14,27 @@ for algorithm visualization
 
 currentPos1 = -1
 currentPos2 = -1
-
 comparisons = 0
 modifications = 0
 
-sorting = False
+delay = 0.01
 
-def bubbleSort(arr, posLock, statLock):
+def resetValues(posLock, statLock):
+    global currentPos1
+    global currentPos2
+    global comparisons
+    global modifications
+
+    with posLock:
+        with statLock:
+            currentPos1 = -1
+            currentPos2 = -1
+            comparisons = 0
+            modifications = 0
+
+
+
+def bubbleSort(arr, posLock, statLock, speedLock):
     global currentPos1
     global currentPos2
     global comparisons
@@ -35,7 +49,8 @@ def bubbleSort(arr, posLock, statLock):
                 with posLock:
                     currentPos1 = j
                     currentPos2 = j + 1
-                # time.sleep(0.0001)
+                with speedLock:
+                    time.sleep(delay)
                 
             with statLock:
                 comparisons += 1
@@ -44,10 +59,12 @@ def bubbleSort(arr, posLock, statLock):
 
 
 
-def merge(arr, l, m, r):
+def merge(arr, l, m, r, posLock, statLock, speedLock):
 
     global comparisons
     global modifications
+    global currentPos1
+    global currentPos2
 
     tempL = [0] * (m - l + 1)
     tempR = [0] * (r - m)
@@ -63,43 +80,57 @@ def merge(arr, l, m, r):
     k = l
     
     while i < len(tempL) and j < len(tempR):
-        comparisons += 1
+        with statLock:
+            comparisons += 1
         if tempL[i] <= tempR[j]:
             arr[k] = tempL[i]
+            with posLock:
+                currentPos1 = k
             i += 1
-            modifications += 1
-            time.sleep(0.001)
+            with statLock:
+                modifications += 1
+            time.sleep(delay)
         else:
             arr[k] = tempR[j]
+            with posLock:
+                currentPos1 = k
             j += 1
-            modifications += 1
-            time.sleep(0.001)
+            with statLock:
+                modifications += 1
+            time.sleep(delay)
         k += 1
 
     while i < len(tempL):
-        modifications += 1
+        with statLock:
+            modifications += 1
         arr[k] = tempL[i]
-        time.sleep(0.001)
+        with posLock:
+            currentPos2 = k
+        time.sleep(delay)
         i += 1
         k += 1
     
     while j < len(tempR):
-        modifications += 1
+        with statLock:
+            modifications += 1
         arr[k] = tempR[j]
-        time.sleep(0.001)
+        with posLock:
+            currentPos2 = k
+        time.sleep(delay)
         j += 1
         k += 1
     
     return [comparisons, modifications]
 
-def mergeSort(arr, l, r):
+def mergeSort(arr, l, r, posLock, statLock, speedLock):
     
+
     if l < r:
         m = l + (r - l) // 2
 
-        things = mergeSort(arr, l, m)
-        things2 = mergeSort(arr, m + 1, r)
-        things3 = merge(arr, l, m, r)
+        things = mergeSort(arr, l, m, posLock, statLock, speedLock)
+        things2 = mergeSort(arr, m + 1, r, posLock, statLock, speedLock)
+        things3 = merge(arr, l, m, r, posLock, statLock, speedLock)
 
         return [things[0] + things2[0] + things3[0], things[1] + things2[1] + things3[1]]
     return [0, 0]
@@ -107,7 +138,7 @@ def mergeSort(arr, l, r):
 
 
 
-def partition(arr, l, r, posLock, statLock):
+def partition(arr, l, r, posLock, statLock, speedLock):
 
     global currentPos1
     global currentPos2
@@ -130,33 +161,35 @@ def partition(arr, l, r, posLock, statLock):
 
             (arr[i], arr[j]) = (arr[j], arr[i])
             with posLock:
-                currentPos1 = j
-                currentPos2 = j + 1
+                currentPos1 = i
+                currentPos2 = j
 
             with statLock:
                 modifications += 2
-            # time.sleep(0.001)
+            time.sleep(delay)
  
     (arr[i + 1], arr[r]) = (arr[r], arr[i + 1])
     with posLock:
-        currentPos1 = j
-        currentPos2 = j + 1
+        currentPos1 = i + 1
+        currentPos2 = r
 
     with statLock:        
         modifications += 1
-    # time.sleep(0.001)
+    time.sleep(delay)
  
 
     return [i + 1, comparisons, modifications]
  
  
-def quickSort(arr, l, r, posLock, statLock):
+def quickSort(arr, l, r, posLock, statLock, speedLock):
+
+
     if l < r:
-        things = partition(arr, l, r, posLock, statLock)
+        things = partition(arr, l, r, posLock, statLock, speedLock)
  
-        things2 = quickSort(arr, l, things[0] - 1, posLock, statLock)
+        things2 = quickSort(arr, l, things[0] - 1, posLock, statLock, speedLock)
  
-        things3 = quickSort(arr, things[0] + 1, r, posLock, statLock)
+        things3 = quickSort(arr, things[0] + 1, r, posLock, statLock, speedLock)
 
         
         return [things[1] + things2[0] + things3[0], things[2] + things2[1] + things3[1]]

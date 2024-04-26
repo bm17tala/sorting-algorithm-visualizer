@@ -19,7 +19,8 @@ FILE_TYPE = ".tmg"
 
 # class for holding either latitude or longitude data for a point
 # they must hold EITHER latitude or longitude, so they can be sorted by either
-# latitude or longitude.
+# latitude or longitude. This is done so the name of the vertex is swapped along 
+# with its actual latitude/longitude value.
 class VertexNode:
     def __init__(self, name, data):
         self.name = name
@@ -33,6 +34,10 @@ sys.setrecursionlimit(0x7fffffff)
 
 
 # test out command line input
+
+
+
+
 if len(sys.argv) != 2 or len(sys.argv[1]) < 5 or not sys.argv[1].endswith(FILE_TYPE):
     print("Proper usage: python main.py [File_name].tmg")
     sys.exit(1)
@@ -77,19 +82,31 @@ while True:
     userIn = input()
     if userIn == '1':
         while True:
-            print("\nEnter one of the following:")
-            print("(1) Sort by latitude")
-            print("(2) Sort by longitude")
+
+            print("Visualize which algorithm?")
+            print("(1) BubbleSort")
+            print("(2) MergeSort")
+            print("(3) QuickSort")
             userIn = input()
-            if(userIn == '1'):
-                runGUI(latitude)
-                break
-            if(userIn == '2'):
-                runGUI(longitude)
-                break
+            if userIn == '1' or userIn == '2' or userIn == '3':
+                algorithm = userIn
+                while True:
+                    print("\nEnter one of the following:")
+                    print("(1) Sort by latitude")
+                    print("(2) Sort by longitude")
+                    userIn = input()
+                    if(userIn == '1'):
+                        runGUI(latitude, algorithm, argument)
+                        break
+                    if(userIn == '2'):
+                        runGUI(longitude, algorithm, argument)
+                        break
+                    else:
+                        print("Try again...")
             else:
                 print("Try again...")
-        break
+
+            break
     elif userIn == '2':
         print(f"\nSorting {numVertices} vertices...\n")
         print("---latitudes---\n")
