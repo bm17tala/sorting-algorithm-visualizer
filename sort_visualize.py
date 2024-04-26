@@ -19,6 +19,8 @@ modifications = 0
 
 delay = 0.01
 
+sleeping = True
+
 def resetValues(posLock, statLock):
     global currentPos1
     global currentPos2
@@ -50,7 +52,8 @@ def bubbleSort(arr, posLock, statLock, speedLock):
                     currentPos1 = j
                     currentPos2 = j + 1
                 with speedLock:
-                    time.sleep(delay)
+                    if sleeping:
+                        time.sleep(delay)
                 
             with statLock:
                 comparisons += 1
@@ -89,7 +92,8 @@ def merge(arr, l, m, r, posLock, statLock, speedLock):
             i += 1
             with statLock:
                 modifications += 1
-            time.sleep(delay)
+            if sleeping:
+                time.sleep(delay)
         else:
             arr[k] = tempR[j]
             with posLock:
@@ -97,7 +101,8 @@ def merge(arr, l, m, r, posLock, statLock, speedLock):
             j += 1
             with statLock:
                 modifications += 1
-            time.sleep(delay)
+            if sleeping:
+                time.sleep(delay)
         k += 1
 
     while i < len(tempL):
@@ -106,7 +111,8 @@ def merge(arr, l, m, r, posLock, statLock, speedLock):
         arr[k] = tempL[i]
         with posLock:
             currentPos2 = k
-        time.sleep(delay)
+        if sleeping:
+            time.sleep(delay)
         i += 1
         k += 1
     
@@ -116,7 +122,8 @@ def merge(arr, l, m, r, posLock, statLock, speedLock):
         arr[k] = tempR[j]
         with posLock:
             currentPos2 = k
-        time.sleep(delay)
+        if sleeping:
+            time.sleep(delay)
         j += 1
         k += 1
     
@@ -166,7 +173,8 @@ def partition(arr, l, r, posLock, statLock, speedLock):
 
             with statLock:
                 modifications += 2
-            time.sleep(delay)
+            if sleeping:
+                time.sleep(delay)
  
     (arr[i + 1], arr[r]) = (arr[r], arr[i + 1])
     with posLock:
@@ -175,7 +183,8 @@ def partition(arr, l, r, posLock, statLock, speedLock):
 
     with statLock:        
         modifications += 1
-    time.sleep(delay)
+    if sleeping:
+        time.sleep(delay)
  
 
     return [i + 1, comparisons, modifications]

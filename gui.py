@@ -121,6 +121,16 @@ def runGUI(testArray, algorithm, argument):
                 elif event.key == pygame.K_s:
                     with speedLock:
                         sort_visualize.delay *= 2
+                elif event.key == pygame.K_0:
+                    with speedLock:
+                        if sort_visualize.delay != 0:
+                            sort_visualize.delay = 0
+                            sort_visualize.sleeping = False
+                        else:
+                            sort_visualize.delay = 0.01
+                            sort_visualize.sleeping = True
+
+                        
 
 
 
