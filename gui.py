@@ -206,8 +206,8 @@ def runGUI(testArray, algorithm, argument):
 
         drawText(f"{algName}", 10, 10, screen)
         with statLock:
-            drawText(f"Comparisons: {sort_visualize.comparisons}", 10, 50, screen)
-            drawText(f"Modifications: {sort_visualize.modifications}", 10, 90, screen)
+            drawText(f"Comparisons: {"{:,}".format(sort_visualize.comparisons)}", 10, 50, screen)
+            drawText(f"Modifications: {"{:,}".format(sort_visualize.modifications)}", 10, 90, screen)
         with speedLock:
             drawText(f"Swap delay: {sort_visualize.delay} seconds", 10, 130, screen)
         drawText(f"{argument}", 10, 170, screen) 
@@ -281,7 +281,10 @@ def average_of_chunks(arr, chunk_size):
 
 def drawText(string, x, y, screen):
     font = pygame.font.SysFont('Comic Sans MS', 21)
+    text_surface = font.render(string, True, (0x0,0x0,0x0))
+    screen.blit(text_surface, (x-1,y+1))
     text_surface = font.render(string, True, (0xff,0xff,0xff))
     screen.blit(text_surface, (x,y))
+    
 
 
