@@ -11,6 +11,6 @@ To run, simply run the main.py source file. Please note that this project requir
 
 * Sample Screenshots:
   - Visualized BubbleSort Algorithm running on [BLR-region.tmg](/test_graphs/BLR-region.tmg
-  - [Screenshot of Visualizer](/screenshots/visualizer.png?raw=true)
+  - ![Screenshot of Visualizer](/screenshots/visualizer.png?raw=true)
   - Completed tests of sorting algorithms for latitudes within [BLR-region.tmg](/test_graphs/BLR-region.tmg
-  - [Screenshot of Tests](/screenshots/tests.png?raw=true)
+  - ![Screenshot of Tests](/screenshots/tests.png?raw=true)
